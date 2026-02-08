@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Электронный дневник</title>
+    <title data-i18n="title">Электронный дневник</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,15 +16,19 @@
             <div class="header-content">
                 <div class="logo">
                     <span class="logo-icon">🎓</span>
-                    <h1>Электронный дневник</h1>
+                    <h1 data-i18n="title">Электронный дневник</h1>
                 </div>
                 <div class="header-info">
+                    <div class="lang-toggle">
+                        <button class="lang-btn active" id="ru-btn" data-lang="ru">RUS</button>
+                        <button class="lang-btn" id="en-btn" data-lang="en">ENG</button>
+                    </div>
                     <div class="week-toggle">
-                        <button class="week-btn active" id="odd-week-btn">Нечетная</button>
-                        <button class="week-btn" id="even-week-btn">Четная</button>
+                        <button class="week-btn active" id="odd-week-btn" data-i18n="odd_week">Нечетная</button>
+                        <button class="week-btn" id="even-week-btn" data-i18n="even_week">Четная</button>
                     </div>
                     <div class="user-info">
-                        <p class="subtitle">Группа: <span id="group-name">-</span></p>
+                        <p class="subtitle"><span data-i18n="group">Группа</span>: <span id="group-name">-</span></p>
                     </div>
                 </div>
             </div>
@@ -32,13 +36,13 @@
 
         <nav class="main-nav">
             <button class="nav-link active" id="schedule-nav" data-tab="schedule">
-                <i class="fas fa-calendar-alt"></i> Расписание
+                <i class="fas fa-calendar-alt"></i> <span data-i18n="nav_schedule">Расписание</span>
             </button>
             <button class="nav-link" id="grades-nav" data-tab="grades">
-                <i class="fas fa-chart-line"></i> Успеваемость
+                <i class="fas fa-chart-line"></i> <span data-i18n="nav_grades">Успеваемость</span>
             </button>
             <button class="nav-link" id="teachers-nav" data-tab="teachers">
-                <i class="fas fa-chalkboard-teacher"></i> Преподаватели
+                <i class="fas fa-chalkboard-teacher"></i> <span data-i18n="nav_teachers">Преподаватели</span>
             </button>
         </nav>
 
@@ -47,13 +51,13 @@
                 <i class="fas fa-chevron-left"></i>
             </button>
             <div class="days-nav">
-                <button class="day-btn" data-day="1">Пн</button>
-                <button class="day-btn" data-day="2">Вт</button>
-                <button class="day-btn" data-day="3">Ср</button>
-                <button class="day-btn" data-day="4">Чт</button>
-                <button class="day-btn" data-day="5">Пт</button>
-                <button class="day-btn weekend" data-day="6">Сб</button>
-                <button class="day-btn weekend" data-day="0">Вс</button>
+                <button class="day-btn" data-day="1" data-i18n="day_mon">Пн</button>
+                <button class="day-btn" data-day="2" data-i18n="day_tue">Вт</button>
+                <button class="day-btn" data-day="3" data-i18n="day_wed">Ср</button>
+                <button class="day-btn" data-day="4" data-i18n="day_thu">Чт</button>
+                <button class="day-btn" data-day="5" data-i18n="day_fri">Пт</button>
+                <button class="day-btn weekend" data-day="6" data-i18n="day_sat">Сб</button>
+                <button class="day-btn weekend" data-day="0" data-i18n="day_sun">Вс</button>
             </div>
             <button class="ctrl-btn" id="next-day">
                 <i class="fas fa-chevron-right"></i>
@@ -61,10 +65,10 @@
         </div>
 
         <div class="current-day-display">
-            <h2 id="current-day-name">Понедельник</h2>
+            <h2 id="current-day-name" data-i18n="day_mon_full">Понедельник</h2>
             <div class="day-info">
-                <span><span id="pair-count">0</span> пар</span>
-                <span id="week-status">Нечетная неделя</span>
+                <span><span id="pair-count">0</span> <span data-i18n="pairs">пар</span></span>
+                <span id="week-status" data-i18n="odd_week_status">Нечетная неделя</span>
             </div>
         </div>
 
@@ -81,137 +85,15 @@
         </section>
 
         <section class="grades-section" id="grades-section" style="display: none;">
-            <div class="schedule-container">
-                <h2><i class="fas fa-chart-line"></i> Успеваемость</h2>
-                
-                <div class="semester-toggle">
-                    <button class="semester-btn active" id="semester-1-btn">1 семестр</button>
-                    <button class="semester-btn" id="semester-2-btn">2 семестр</button>
-                </div>
-
-                <div class="grades-table active" id="semester-1-table">
-                    <div class="table-header">
-                        <div>Предмет</div>
-                        <div>Четверти</div>
-                        <div>Средний балл</div>
-                        <div>Экзамен</div>
-                        <div>Итог</div>
-                    </div>
-                    <div class="table-row">
-                        <div class="subject-col">
-                            <div class="subject-name">Математика</div>
-                            <div class="teacher-name">Иванов И.И.</div>
-                        </div>
-                        <div class="grades-col">
-                            <div class="quarter-grades">
-                                <span class="quarter">I: <span class="grade good">4</span></span>
-                                <span class="quarter">II: <span class="grade excellent">5</span></span>
-                            </div>
-                        </div>
-                        <div class="average-col">
-                            <span class="average-grade">4.5</span>
-                        </div>
-                        <div class="exam-col">
-                            <span class="exam-grade">5</span>
-                        </div>
-                        <div class="final-col">
-                            <span class="final-grade excellent">5</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grades-table" id="semester-2-table">
-                    <div class="table-header">
-                        <div>Предмет</div>
-                        <div>Четверти</div>
-                        <div>Средний балл</div>
-                        <div>Экзамен</div>
-                        <div>Итог</div>
-                    </div>
-                    <div class="table-row empty">
-                        <div class="empty-message">
-                            <i class="fas fa-inbox"></i>
-                            <p>Оценки за 2 семестр пока отсутствуют.</p>
-                            <p>Данные появятся после окончания семестра.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-section">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value">4.6</div>
-                            <div class="stat-label">Средний балл по всем предметам</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value">12 / 12</div>
-                            <div class="stat-label">Предметов с положительной успеваемостью</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-arrow-up"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value">+0.4</div>
-                            <div class="stat-label">Рост среднего балла за год</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="grades-container">
+                <h3 data-i18n="grades_title">Ваша успеваемость</h3>
             </div>
         </section>
 
         <section class="teachers-section" id="teachers-section" style="display: none;">
-            <div class="schedule-container">
-                <h2><i class="fas fa-chalkboard-teacher"></i> Преподаватели</h2>
-                <div id="teachers-container"></div>
-            </div>
+            <div class="teachers-container" id="teachers-list"></div>
         </section>
-
-        <div class="legend">
-            <div class="legend-item">
-                <div class="color-box onsite"></div>
-                <span>Очные занятия</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-box remote"></div>
-                <span>Дистанционные занятия</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-box week-specific"></div>
-                <span>Зависит от недели</span>
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Электронный дневник</h4>
-                    <p>Современный взгляд на учебный процесс.</p>
-                    <p>Версия интерфейса: 1.0</p>
-                    <p>Время обновления: <span id="update-time">--:--</span></p>
-                </div>
-                <div class="footer-section">
-                    <div class="shortcuts">
-                        Горячие клавиши:
-                        <kbd>←</kbd><kbd>→</kbd>
-                        <kbd>O</kbd><kbd>E</kbd>
-                        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
-
-    
 
     <script src="assets/js/app.js"></script>
 </body>

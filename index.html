@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронный дневник</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <script id="schedule-json" type="application/json" src="assets/data/schedule-md25.json"></script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-content">
+            <img src="assets/img/berd03.svg" alt="Логотип" class="logo">
+            <div class="header-text">
+                <h1>Электронный дневник</h1>
+                <p class="subtitle">Группа <span id="group-name">МД-25</span></p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="schedule">
+            <i class="fas fa-calendar-alt"></i> Расписание
+        </button>
+        <button class="tab-btn" data-tab="grades">
+            <i class="fas fa-chart-line"></i> Оценки
+        </button>
+        <button class="tab-btn" data-tab="teachers">
+            <i class="fas fa-chalkboard-teacher"></i> Преподаватели
+        </button>
+    </nav>
+
+    <section id="schedule-section" class="tab-content active">
+        <div class="week-selector">
+            <button id="prev-week" class="week-nav-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="week-info">
+                <span id="week-type" class="week-badge">Нечётная</span>
+                <span id="week-dates"></span>
+            </div>
+            <button id="next-week" class="week-nav-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="day-selector">
+            <button class="day-btn" data-day="monday">ПН</button>
+            <button class="day-btn" data-day="tuesday">ВТ</button>
+            <button class="day-btn" data-day="wednesday">СР</button>
+            <button class="day-btn" data-day="thursday">ЧТ</button>
+            <button class="day-btn" data-day="friday">ПТ</button>
+            <button class="day-btn" data-day="saturday">СБ</button>
+        </div>
+
+        <div id="schedule-display"></div>
+    </section>
+
+    <section id="grades-section" class="tab-content">
+        <div class="grades-header">
+            <h2>Успеваемость</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-label">Средний балл</span>
+                    <span class="stat-value">4.2</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Всего оценок</span>
+                    <span class="stat-value">24</span>
+                </div>
+            </div>
+        </div>
+
+        <table class="grades-table">
+            <thead>
+                <tr>
+                    <th>Дисциплина</th>
+                    <th>Оценки</th>
+                    <th>Средний балл</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Математика</td>
+                    <td><span class="grade">5</span> <span class="grade">4</span> <span class="grade">5</span></td>
+                    <td>4.7</td>
+                </tr>
+                <tr>
+                    <td>Программирование</td>
+                    <td><span class="grade">5</span> <span class="grade">5</span> <span class="grade">4</span> <span class="grade">5</span></td>
+                    <td>4.8</td>
+                </tr>
+                <tr>
+                    <td>Базы данных</td>
+                    <td><span class="grade">4</span> <span class="grade">4</span></td>
+                    <td>4.0</td>
+                </tr>
+                <tr>
+                    <td>Английский язык</td>
+                    <td><span class="grade">5</span> <span class="grade">4</span> <span class="grade">4</span></td>
+                    <td>4.3</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="teachers-section" class="tab-content">
+        <div id="teachers-list"></div>
+    </section>
+
+    <footer>
+        <p>© 2025 Электронный дневник МД-25. Все права защищены.</p>
+    </footer>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

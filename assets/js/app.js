@@ -20,14 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     };
 
     function loadSchedule() {
-        const el = document.getElementById('schedule-json');
-        const src = el ? el.getAttribute('src') : null;
-        if (!src) {
-            scheduleData = normalizeSchedule({});
-            return Promise.resolve();
-        }
-
-        return fetch(src)
+        return fetch('assets/data/schedule-md25.json')
             .then(resp => resp.json())
             .then(data => {
                 scheduleData = normalizeSchedule(data);

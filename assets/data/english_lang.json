@@ -1,0 +1,65 @@
+{
+  "title": "Electronic Diary",
+  "header": {
+    "oddWeek": "Odd",
+    "evenWeek": "Even",
+    "group": "Group:"
+  },
+  "nav": {
+    "schedule": "Schedule",
+    "grades": "Performance",
+    "teachers": "Teachers"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun"
+  },
+  "schedule": {
+    "pairs": "classes",
+    "oddWeek": "Odd week",
+    "evenWeek": "Even week",
+    "noClasses": "No classes",
+    "noClassesMessage": "There are no classes scheduled for this day."
+  },
+  "grades": {
+    "title": "Performance",
+    "semester1": "Semester 1",
+    "semester2": "Semester 2",
+    "subject": "Subject",
+    "quarters": "Quarters",
+    "average": "Average grade",
+    "exam": "Exam",
+    "final": "Final",
+    "noGrades": "Grades for semester 2 are not yet available.",
+    "noGradesDetails": "Data will appear after the end of the semester.",
+    "overallAverage": "Overall average across all subjects",
+    "subjectsWithPositive": "Subjects with positive performance",
+    "growthPerYear": "Growth of average grade per year"
+  },
+  "teachers": {
+    "title": "Teachers"
+  },
+  "legend": {
+    "onsite": "On-site classes",
+    "remote": "Remote classes",
+    "weekSpecific": "Depends on week"
+  },
+  "footer": {
+    "modernView": "A modern view of the learning process.",
+    "version": "Interface version: 1.0",
+    "updateTime": "Update time:",
+    "hotkeys": "Hotkeys:"
+  }
+}

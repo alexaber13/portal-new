@@ -1,0 +1,79 @@
+{
+  "Микрюкова С.М.": {
+    "id": "mikryukova-sm",
+    "fio": "Микрюкова Светлана Михайловна",
+    "email": "mikryukova@example.com",
+    "subjects": ["Средства исполнения"],
+    "photo": "teachers/mikryukova.jpg"
+  },
+  "Алиева И.И.": {
+    "id": "alieva-ii",
+    "fio": "Алиева Ирина Ивановна",
+    "email": "alieva@example.com",
+    "subjects": ["Русский язык", "Литература"],
+    "photo": "teachers/alieva.jpg"
+  },
+  "Лихачева О.А.": {
+    "id": "lixacheva-oa",
+    "fio": "Лихачева Ольга Александровна",
+    "email": "lixacheva@example.com",
+    "subjects": ["Обществознание"],
+    "photo": "teachers/lixacheva.jpg"
+  },
+  "Боброва Е.М.": {
+    "id": "bobrova-em",
+    "fio": "Боброва Елена Михайловна",
+    "email": "bobrova@example.com",
+    "subjects": ["История"],
+    "photo": "teachers/bobrova.jpg"
+  },
+  "Амбарова А.Г.": {
+    "id": "ambarova-ag",
+    "fio": "Амбарова Анна Геннадьевна",
+    "email": "ambarova@example.com",
+    "subjects": ["Дизайн-проектирование", "Типографика"],
+    "photo": "teachers/ambarova.jpg"
+  },
+  "Фролова В.А.": {
+    "id": "frolova-va",
+    "fio": "Фролова Виктория Алексеевна",
+    "email": "frolova@example.com",
+    "subjects": ["Рисунок"],
+    "photo": "teachers/frolova.jpg"
+  },
+  "Михайличенко Е.А.": {
+    "id": "mixaylichenko-ea",
+    "fio": "Михайличенко Елена Александровна",
+    "email": "mixaylichenko@example.com",
+    "subjects": ["Цветоведение"],
+    "photo": "teachers/mixaylichenko.jpg"
+  },
+  "Сироткина А.В.": {
+    "id": "sirotkina-av",
+    "fio": "Сироткина Анна Викторовна",
+    "email": "sirotkina@example.com",
+    "subjects": ["Живопись"],
+    "photo": "teachers/sirotkina.jpg"
+  },
+  "Николаева Е.В.": {
+    "id": "nikolaeva-ev",
+    "fio": "Николаева Елена Викторовна",
+    "email": "nikolaeva@example.com",
+    "subjects": ["Математика"],
+    "photo": "teachers/nikolaeva.jpg"
+  },
+  "Шляхов А.В.": {
+    "id": "shlyaxov-av",
+    "fio": "Шляхов Андрей Викторович",
+    "email": "shlyaxov@example.com",
+    "subjects": ["Информатика"],
+    "photo": "teachers/shlyaxov.jpg"
+  },
+  "Зоркова М.В.": {
+    "id": "zorkova-mv",
+    "fio": "Зоркова Марина Викторовна",
+    "email": "zorkova@example.com",
+    "subjects": ["Иностранный язык"],
+    "photo": "teachers/zorkova.jpg"
+  }
+}

@@ -19,10 +19,17 @@
                     <h1 data-i18n="title">Электронный дневник</h1>
                 </div>
                 <div class="header-info">
-                    <div class="lang-toggle">
-                        <button class="lang-btn active" id="ru-btn" data-lang="ru">RUS</button>
-                        <button class="lang-btn" id="en-btn" data-lang="en">ENG</button>
-                    </div>
+                <div class="lang-toggle">
+                    <select id="lang-select" class="lang-select">
+                        <option value="ru" selected>Русский</option>
+                        <option value="en">English</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="ar">العربية</option>
+                        <option value="zoomer">Zoomer</option>
+                    </select>
+                </div>
                     <div class="week-toggle">
                         <button class="week-btn active" id="odd-week-btn" data-i18n="odd_week">Нечетная</button>
                         <button class="week-btn" id="even-week-btn" data-i18n="even_week">Четная</button>

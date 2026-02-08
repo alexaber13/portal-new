@@ -142,8 +142,22 @@ document.addEventListener('DOMContentLoaded', function () {
             if (groupNameEl) groupNameEl.textContent = group;
         } catch (e) {
             console.error('Ошибка загрузки JSON', e);
+        // Try to load from embedded script tag as fallback
+        const scriptEl = document.getElementById('schedule-json');
+        if (scriptEl && scriptEl.textContent) {
+            try {
+                const embeddedData = JSON.parse(scriptEl.textContent);
+                scheduleData = normalizeSchedule(embeddedData);
+                const group = scheduleData.group || '-';
+                const groupNameEl = document.getElementById('group-name');
+                if (groupNameEl) groupNameEl.textContent = group;
+            } catch (parseErr) {
+                console.error('Failed to parse embedded JSON', parseErr);
+                scheduleData = normalizeSchedule({});
+            }
+        } else {
             scheduleData = normalizeSchedule({});
-        }
+        }        }
     }
 
     function renderDaySchedule(dayIndex) {

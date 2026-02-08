@@ -1,0 +1,93 @@
+{
+  "group": "МД-25",
+  "weeks": {
+    "odd": {
+      "monday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Математика",
+          "teacher": "Микрюкова А.С.",
+          "room": "201"
+        },
+        {
+          "time": "10:40-12:10",
+          "subject": "Программирование",
+          "teacher": "Алиева А.А.",
+          "room": "305"
+        }
+      ],
+      "tuesday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Базы данных",
+          "teacher": "Сафина М.Х.",
+          "room": "302"
+        },
+        {
+          "time": "10:40-12:10",
+          "subject": "Английский язык",
+          "teacher": "Смирнова Е.В.",
+          "room": "108"
+        }
+      ],
+      "wednesday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Математика",
+          "teacher": "Микрюкова А.С.",
+          "room": "201"
+        },
+        {
+          "time": "10:40-12:10",
+          "subject": "Программирование",
+          "teacher": "Алиева А.А.",
+          "room": "305"
+        }
+      ],
+      "thursday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Базы данных",
+          "teacher": "Сафина М.Х.",
+          "room": "302"
+        }
+      ],
+      "friday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Программирование",
+          "teacher": "Алиева А.А.",
+          "room": "305"
+        },
+        {
+          "time": "10:40-12:10",
+          "subject": "Английский язык",
+          "teacher": "Смирнова Е.В.",
+          "room": "108"
+        }
+      ],
+      "saturday": []
+    },
+    "even": {
+      "monday": "@same_as:odd.monday",
+      "tuesday": "@same_as:odd.tuesday",
+      "wednesday": "@same_as:odd.wednesday",
+      "thursday": [
+        {
+          "time": "09:00-10:30",
+          "subject": "Математика",
+          "teacher": "Микрюкова А.С.",
+          "room": "201"
+        },
+        {
+          "time": "10:40-12:10",
+          "subject": "Базы данных",
+          "teacher": "Сафина М.Х.",
+          "room": "302"
+        }
+      ],
+      "friday": "@same_as:odd.friday",
+      "saturday": []
+    }
+  }
+}

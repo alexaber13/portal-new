@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function loadSchedule() {
         try {
-            const resp = await fetch('assets/data/schedule-md25.json');
+            const resp = await fetch('assets/data/schedule-md25.json?v=' + Date.now());
             const data = await resp.json();
             scheduleData = normalizeSchedule(data);
             

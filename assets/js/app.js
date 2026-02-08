@@ -4,107 +4,70 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentSemester = 1;
     let scheduleData = null;
 
-    const daysMap = {
-        1: 'monday', 2: 'tuesday', 3: 'wednesday',
-        4: 'thursday', 5: 'friday', 6: 'saturday', 0: 'sunday'
-    };
+    // Data loaded from JSON files
+    let daysMap = null;
+    let daysData = null;
+    let teachers = null;
 
-    const daysData = {
-        1: { name: 'Понедельник', pairs: 0 },
-        2: { name: 'Вторник', pairs: 0 },
-        3: { name: 'Среда', pairs: 0 },
-        4: { name: 'Четверг', pairs: 0 },
-        5: { name: 'Пятница', pairs: 0 },
-        6: { name: 'Суббота', pairs: 0 },
-        0: { name: 'Воскресенье', pairs: 0 }
-    };
-
-    const teachers = {
-        "Микрюкова С.М.": {
-            id: "mikryukova-sm",
-            fio: "Микрюкова Светлана Михайловна",
-            email: "mikryukova@example.com",
-            subjects: ["Средства исполнения"],
-            photo: "teachers/mikryukova.jpg"
-        },
-        "Алиева И.И.": {
-            id: "alieva-ii",
-            fio: "Алиева Ирина Ивановна",
-            email: "alieva@example.com",
-            subjects: ["Русский язык", "Литература"],
-            photo: "teachers/alieva.jpg"
-        },
-        "Лихачева О.А.": {
-            id: "lixacheva-oa",
-            fio: "Лихачева Ольга Александровна",
-            email: "lixacheva@example.com",
-            subjects: ["Обществознание"],
-            photo: "teachers/lixacheva.jpg"
-        },
-        "Боброва Е.М.": {
-            id: "bobrova-em",
-            fio: "Боброва Елена Михайловна",
-            email: "bobrova@example.com",
-            subjects: ["История"],
-            photo: "teachers/bobrova.jpg"
-        },
-        "Амбарова А.Г.": {
-            id: "ambarova-ag",
-            fio: "Амбарова Анна Геннадьевна",
-            email: "ambarova@example.com",
-            subjects: ["Дизайн-проектирование", "Типографика"],
-            photo: "teachers/ambarova.jpg"
-        },
-        "Фролова В.А.": {
-            id: "frolova-va",
-            fio: "Фролова Виктория Алексеевна",
-            email: "frolova@example.com",
-            subjects: ["Рисунок"],
-            photo: "teachers/frolova.jpg"
-        },
-        "Михайличенко Е.А.": {
-            id: "mixaylichenko-ea",
-            fio: "Михайличенко Елена Александровна",
-            email: "mixaylichenko@example.com",
-            subjects: ["Цветоведение"],
-            photo: "teachers/mixaylichenko.jpg"
-        },
-        "Сироткина А.В.": {
-            id: "sirotkina-av",
-            fio: "Сироткина Анна Викторовна",
-            email: "sirotkina@example.com",
-            subjects: ["Живопись"],
-            photo: "teachers/sirotkina.jpg"
-        },
-        "Николаева Е.В.": {
-            id: "nikolaeva-ev",
-            fio: "Николаева Елена Викторовна",
-            email: "nikolaeva@example.com",
-            subjects: ["Математика"],
-            photo: "teachers/nikolaeva.jpg"
-        },
-        "Шляхов А.В.": {
-            id: "shlyaxov-av",
-            fio: "Шляхов Андрей Викторович",
-            email: "shlyaxov@example.com",
-            subjects: ["Информатика"],
-            photo: "teachers/shlyaxov.jpg"
-        },
-        "Зоркова М.В.": {
-            id: "zorkova-mv",
-            fio: "Зоркова Марина Викторовна",
-            email: "zorkova@example.com",
-            subjects: ["Иностранный язык"],
-            photo: "teachers/zorkova.jpg"
+    // Load configuration data
+    async function loadConfig() {
+        try {
+            const resp = await fetch('assets/data/daysMap.json?v=' + Date.now());
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            daysMap = await resp.json();
+        } catch (e) {
+            console.error('Error loading daysMap.json', e);
+            // Fallback
+            daysMap = {
+                1: 'monday', 2: 'tuesday', 3: 'wednesday',
+                4: 'thursday', 5: 'friday', 6: 'saturday', 0: 'sunday'
+            };
         }
-    };
+
+        try {
+            const resp = await fetch('assets/data/daysData.json?v=' + Date.now());
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            const dataArray = await resp.json();
+            // Convert array to object with keys 1-7 and 0
+            daysData = {};
+            dataArray.forEach((day, idx) => {
+                daysData[idx + 1] = day;
+            });
+            // Move last to 0 (Sunday)
+            daysData[0] = daysData[7];
+            delete daysData[7];
+        } catch (e) {
+            console.error('Error loading daysData.json', e);
+            // Fallback
+            daysData = {
+                1: { name: 'Понедельник', pairs: 0 },
+                2: { name: 'Вторник', pairs: 0 },
+                3: { name: 'Среда', pairs: 0 },
+                4: { name: 'Четверг', pairs: 0 },
+                5: { name: 'Пятница', pairs: 0 },
+                6: { name: 'Суббота', pairs: 0 },
+                0: { name: 'Воскресенье', pairs: 0 }
+            };
+        }
+    }
+
+    // Load teachers data
+    async function loadTeachers() {
+        try {
+            const resp = await fetch('assets/data/teachers.json?v=' + Date.now());
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            teachers = await resp.json();
+        } catch (e) {
+            console.error('Error loading teachers.json', e);
+            teachers = {};
+        }
+    }
 
     function updateDateTime() {
         const now = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         const dateEl = document.getElementById('current-date');
         if (dateEl) dateEl.textContent = now.toLocaleDateString('ru-RU', options);
-        
         const timeEl = document.getElementById('update-time');
         if (timeEl) timeEl.textContent = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
     }
@@ -114,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
         res.weeks = res.weeks || {};
         const odd = res.weeks.odd || {};
         const even = res.weeks.even || {};
-
         for (const [day, value] of Object.entries(even)) {
             if (typeof value === 'string' && value.startsWith('@same_as:odd.')) {
                 const srcDay = value.split('@same_as:odd.')[1];
@@ -123,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 even[day] = [];
             }
         }
-
         res.weeks.odd = odd;
         res.weeks.even = even;
         if (!odd.sunday) odd.sunday = [];
@@ -134,93 +95,67 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadSchedule() {
         try {
             const resp = await fetch('assets/data/schedule-md25.json?v=' + Date.now());
-                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
             const data = await resp.json();
             scheduleData = normalizeSchedule(data);
-            
             const group = scheduleData.group || '-';
             const groupNameEl = document.getElementById('group-name');
             if (groupNameEl) groupNameEl.textContent = group;
         } catch (e) {
             console.error('Ошибка загрузки JSON', e);
-        // Try to load from embedded script tag as fallback
-        const scriptEl = document.getElementById('schedule-json');
-        if (scriptEl && scriptEl.textContent) {
-            try {
-                const embeddedData = JSON.parse(scriptEl.textContent);
-                scheduleData = normalizeSchedule(embeddedData);
-                const group = scheduleData.group || '-';
-                const groupNameEl = document.getElementById('group-name');
-                if (groupNameEl) groupNameEl.textContent = group;
-            } catch (parseErr) {
-                console.error('Failed to parse embedded JSON', parseErr);
+            // Try to load from embedded script tag as fallback
+            const scriptEl = document.getElementById('schedule-json');
+            if (scriptEl && scriptEl.textContent) {
+                try {
+                    const embeddedData = JSON.parse(scriptEl.textContent);
+                    scheduleData = normalizeSchedule(embeddedData);
+                    const group = scheduleData.group || '-';
+                    const groupNameEl = document.getElementById('group-name');
+                    if (groupNameEl) groupNameEl.textContent = group;
+                } catch (parseErr) {
+                    console.error('Failed to parse embedded JSON', parseErr);
+                    scheduleData = normalizeSchedule({});
+                }
+            } else {
                 scheduleData = normalizeSchedule({});
             }
-        } else {
-            scheduleData = normalizeSchedule({});
-        }        }
+        }
     }
 
     function renderDaySchedule(dayIndex) {
         const dayKey = daysMap[dayIndex];
         const container = document.getElementById(`day-${dayIndex}`);
         if (!container) return;
-        
         container.innerHTML = '';
         if (!scheduleData) return;
-
         const weekBlock = scheduleData.weeks[currentWeek] || {};
         const lessons = weekBlock[dayKey] || [];
-
         if (!lessons.length) {
             container.innerHTML = `
-                <div class="no-lessons">
-                    <div class="no-lessons-icon">
-                        <i class="fas fa-umbrella-beach"></i>
-                    </div>
+                <div class="empty-day">
                     <h3>Занятий нет</h3>
                     <p>На этот день занятия не запланированы.</p>
                 </div>
             `;
             return;
         }
-
         lessons.forEach((lesson, idx) => {
             const pairNumberClass = `pair-${idx % 6}`;
             const room = (lesson.room || '').toString();
-            const isRemote = room.toLowerCase().includes('online') || 
-                             room.toLowerCase().includes('дист') || 
-                             room.toLowerCase().includes('zoom');
-            
+            const isRemote = room.toLowerCase().includes('online') || room.toLowerCase().includes('дист') || room.toLowerCase().includes('zoom');
             const lessonCard = document.createElement('div');
             lessonCard.className = 'lesson-card' + (isRemote ? ' remote' : '');
-            
             const teacher = (lesson.teacher || '').trim();
             const teacherProfile = teachers[teacher];
-            const teacherHtml = teacherProfile ? 
-                `<a href="#teacher-${teacherProfile.id}" class="teacher-link" style="color:#d32f2f;text-decoration:none;">${teacher}</a>` : 
-                teacher;
-
+            const teacherHtml = teacherProfile ? `<a href="#teacher-${teacherProfile.id}" class="teacher-link">${teacher}</a>` : teacher;
             lessonCard.innerHTML = `
-                <div class="lesson-header">
-                    <span class="pair-number ${pairNumberClass}">
-                        ${lesson.lesson != null ? lesson.lesson : idx + 1}
-                    </span>
-                    <span class="lesson-time">${lesson.time || ''}</span>
+                <div class="pair-number ${pairNumberClass}">
+                    ${lesson.lesson != null ? lesson.lesson : idx + 1}
                 </div>
-                <div class="lesson-body">
-                    <h3 class="lesson-title">${lesson.subject || '&nbsp;'}</h3>
-                    <div class="lesson-details">
-                        <div class="detail-item">
-                            <i class="fas fa-user-tie"></i>
-                            <span>${teacherHtml}</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-door-open"></i>
-                            <span>${room}</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="lesson-time">${lesson.time || ''}</div>
+                <h3 class="lesson-subject">${lesson.subject || ' '}</h3>
+                <div class="lesson-teacher">${teacherHtml}</div>
+                <div class="lesson-room">${room}</div>
             `;
             container.appendChild(lessonCard);
         });
@@ -237,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateVisibleDayButtons() {
         const buttons = document.querySelectorAll('.day-btn');
         const isNarrow = window.matchMedia('(max-width: 768px)').matches;
-        
         buttons.forEach(btn => {
             if (!isNarrow) {
                 btn.style.display = '';
@@ -253,22 +187,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateScheduleDisplay() {
         updatePairsCount();
         const dayData = daysData[currentDay];
-        
         const nameEl = document.getElementById('current-day-name');
         if (nameEl) nameEl.textContent = dayData.name;
-        
         const countEl = document.getElementById('pair-count');
         if (countEl) countEl.textContent = dayData.pairs;
-        
         const statusEl = document.getElementById('week-status');
         if (statusEl) statusEl.textContent = currentWeek === 'odd' ? 'Нечетная неделя' : 'Четная неделя';
-
         document.querySelectorAll('.day-btn').forEach(btn => {
             btn.classList.toggle('active', parseInt(btn.dataset.day) === currentDay);
         });
-
         updateVisibleDayButtons();
-        
         document.querySelectorAll('.day-schedule').forEach(day => day.classList.remove('active'));
         const currentDayContainer = document.getElementById(`day-${currentDay}`);
         if (currentDayContainer) {
@@ -277,8 +205,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function nextDay() { currentDay = (currentDay + 1) % 7; updateScheduleDisplay(); }
-    function prevDay() { currentDay = (currentDay - 1 + 7) % 7; updateScheduleDisplay(); }
+    function nextDay() {
+        currentDay = (currentDay + 1) % 7;
+        updateScheduleDisplay();
+    }
+
+    function prevDay() {
+        currentDay = (currentDay - 1 + 7) % 7;
+        updateScheduleDisplay();
+    }
 
     function toggleWeek(weekType) {
         currentWeek = weekType;
@@ -306,14 +241,10 @@ document.addEventListener('DOMContentLoaded', function () {
             card.className = 'teacher-card';
             card.id = `teacher-${t.id}`;
             card.innerHTML = `
-                <img class="teacher-photo" src="assets/img/${t.id}.jpg" onerror="this.src='https://via.placeholder.com/80?text=%3F'" alt="${t.fio}">
-                <div class="teacher-info">
-                    <h3>${t.fio}</h3>
-                    <div class="teacher-subjects">${t.subjects.join(', ')}</div>
-                    <div class="teacher-email">
-                        <a href="mailto:${t.email}">${t.email}</a>
-                    </div>
-                </div>
+                <img src="${t.photo}" alt="${t.fio}" onerror="this.src='assets/images/default-teacher.jpg'">
+                <h3>${t.fio}</h3>
+                <p class="teacher-subjects">${t.subjects.join(', ')}</p>
+                <a href="mailto:${t.email}" class="teacher-email">${t.email}</a>
             `;
             container.appendChild(card);
         });
@@ -326,31 +257,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 updateScheduleDisplay();
             });
         });
-
         document.getElementById('prev-day').addEventListener('click', prevDay);
         document.getElementById('next-day').addEventListener('click', nextDay);
         document.getElementById('odd-week-btn').addEventListener('click', () => toggleWeek('odd'));
         document.getElementById('even-week-btn').addEventListener('click', () => toggleWeek('even'));
-        
         ['schedule', 'grades', 'teachers'].forEach(s => {
             const nav = document.getElementById(`${s}-nav`);
-            if (nav) nav.addEventListener('click', (e) => { e.preventDefault(); showSection(s); });
+            if (nav) nav.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(s);
+            });
         });
-
         document.getElementById('semester-1-btn').addEventListener('click', function() {
             this.classList.add('active');
             document.getElementById('semester-2-btn').classList.remove('active');
             document.getElementById('semester-1-table').classList.add('active');
             document.getElementById('semester-2-table').classList.remove('active');
         });
-
         document.getElementById('semester-2-btn').addEventListener('click', function() {
             this.classList.add('active');
             document.getElementById('semester-1-btn').classList.remove('active');
             document.getElementById('semester-2-table').classList.add('active');
             document.getElementById('semester-1-table').classList.remove('active');
         });
-
         document.addEventListener('click', function (e) {
             const link = e.target.closest('.teacher-link');
             if (!link) return;
@@ -360,7 +289,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showSection('teachers');
             setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
         });
-
         document.addEventListener('keydown', (e) => {
             const keyMap = {
                 'ArrowLeft': prevDay, 'ArrowRight': nextDay,
@@ -370,21 +298,25 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             if (keyMap[e.key]) { keyMap[e.key](); e.preventDefault(); }
         });
-
         window.addEventListener('resize', updateVisibleDayButtons);
     }
 
     async function init() {
         updateDateTime();
         setupEventListeners();
-        renderTeachers();
         
+        // Load all configuration data
+        await loadConfig();
+        await loadTeachers();
+        
+        renderTeachers();
+
         const today = new Date().getDay();
         currentDay = today;
-        
+
         await loadSchedule();
         updateScheduleDisplay();
-        
+
         setInterval(updateDateTime, 60000);
     }
 

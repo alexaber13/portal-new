@@ -108,11 +108,14 @@ document.addEventListener('DOMContentLoaded', function () {
         currentLang = lang;
         localStorage.setItem('preferredLang', lang);
         loadLanguage(lang);
-        // Update button states
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.lang === lang);
-        });
-    
+    // Language dropdown select
+        const langSelect = document.getElementById('lang-select');
+        if (langSelect) {
+            langSelect.addEventListener('change', function() {
+                const lang = this.value;
+                switchLanguage(lang);
+            });
+        }
 
     function updateDateTime() {
         const now = new Date();

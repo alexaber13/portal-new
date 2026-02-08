@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let daysData = null;
     let teachers = null;
 
+        let currentLang = 'ru'; // default language
+    let langData = null; // language translations
     // Load configuration data
     async function loadConfig() {
         try {
@@ -62,6 +64,55 @@ document.addEventListener('DOMContentLoaded', function () {
             teachers = {};
         }
     }
+
+        // Load language data
+    async function loadLanguage(lang) {
+        try {
+            const resp = await fetch(`assets/data/${lang}_lang.json?v=` + Date.now());
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            langData = await resp.json();
+            applyTranslations();
+        } catch (e) {
+            console.error(`Error loading ${lang}_lang.json`, e);
+            if (lang !== 'ru') {
+                // Fallback to Russian if English fails
+                await loadLanguage('ru');
+            }
+        }
+    }
+
+    // Apply translations to all elements with data-i18n attribute
+    function applyTranslations() {
+        if (!langData) return;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (langData[key]) {
+                el.textContent = langData[key];
+            }
+        });
+        // Update week status separately as it's dynamic
+        updateWeekStatus();
+    }
+
+    // Update week status based on current week
+    function updateWeekStatus() {
+        const statusEl = document.getElementById('week-status');
+        if (statusEl && langData) {
+            const key = currentWeek === 'odd' ? 'odd_week_status' : 'even_week_status';
+            statusEl.textContent = langData[key] || statusEl.textContent;
+        }
+    }
+
+    // Switch language
+    function switchLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('preferredLang', lang);
+        loadLanguage(lang);
+        // Update button states
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+    
 
     function updateDateTime() {
         const now = new Date();
@@ -261,6 +312,14 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('next-day').addEventListener('click', nextDay);
         document.getElementById('odd-week-btn').addEventListener('click', () => toggleWeek('odd'));
         document.getElementById('even-week-btn').addEventListener('click', () => toggleWeek('even'));
+        
+        // Language toggle buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                switchLanguage(lang);
+            });
+        });
         ['schedule', 'grades', 'teachers'].forEach(s => {
             const nav = document.getElementById(`${s}-nav`);
             if (nav) nav.addEventListener('click', (e) => {
@@ -308,6 +367,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Load all configuration data
         await loadConfig();
         await loadTeachers();
+        
+        // Load language (check localStorage for saved preference)
+        const savedLang = localStorage.getItem('preferredLang') || 'ru';
+        currentLang = savedLang;
+        await loadLanguage(currentLang);
         
         renderTeachers();
 
